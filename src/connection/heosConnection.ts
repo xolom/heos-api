@@ -47,6 +47,7 @@ export class HeosConnection {
 		}
 
 		this.socket = socket
+		this.socket.on('close', () => { this.closed = true })
 	}
 
 	private socket: Socket
@@ -104,5 +105,13 @@ export class HeosConnection {
 		return new Promise(resolve => {
 			this.socket.end('', undefined, resolve)
 		})
+	}
+	
+	/**
+	 * Check if the connection is alive or closed
+	 * @returns A boolean that indicates the connection status
+	 */
+	isAlive(): boolean {
+		return !this.closed
 	}
 }
